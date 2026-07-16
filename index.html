@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Resume Builder Pro — Powered by Safe Rights R15v4</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Roboto+Mono&display=swap"
+        rel="stylesheet">
+    <style>
+        /* --- MOBILE APP CORE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            overscroll-behavior: none;
+            touch-action: pan-x pan-y;
+            background: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 🛠️ FIX 1: HIDE NATIVE WEBVIEW ACTION BAR/HEADER IF ANY */
+        .action-bar,
+        .native-header {
+            display: none !important;
+        }
+
+        header {
+            background: #1e293b;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #334155;
+            flex-shrink: 0;
+        }
+
+        header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #da0ca6;
+        }
+
+        header p {
+            font-size: 11px;
+            color: #a855f7;
+            font-weight: 600;
+            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* App Navigation Tabs */
+        .app-tabs {
+            display: flex;
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
+            flex-shrink: 0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px 10px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: #38bdf8;
+            border-bottom-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.03);
+        }
+
+        /* Scrollable Content Area */
+        .app-main-content {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            touch-action: pan-y;
+            padding: 15px;
+            padding-bottom: 80px;
+        }
+
+        .app-screen {
+            display: none;
+        }
+
+        .app-screen.active {
+            display: block;
+        }
+
+        /* --- NATIVE INPUT FORM DESIGN --- */
+        h2 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #38bdf8;
+            margin: 15px 0 10px 0;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        /* 🛠️ FIX 2: FORCE INPUT TEXT TO BE PURE WHITE ALWAYS */
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #ffffff !important;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group textarea {
+            height: 85px;
+            resize: none;
+        }
+
+        /* Fixed Block Format for Form Blocks */
+        .edu-row-form,
+        .exp-row-form,
+        .proj-row-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px dashed #334155;
+        }
+
+        .edu-row-form input,
+        .exp-row-form input,
+        .proj-row-form input {
+            padding: 10px;
+            font-size: 13px;
+            background: #111827;
+            color: #ffffff !important;
+        }
+
+        /* Branded Promo Banner */
+        .promo-banner {
+            background: linear-gradient(135deg, #1e1b4b 0%, #311042 100%);
+            border: 1px solid #a855f7;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .promo-banner h3 {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .promo-banner p {
+            font-size: 11px;
+            color: #cbd5e1;
+            margin-bottom: 10px;
+        }
+
+        .btn-youtube {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        /* RED RESET BUTTON WITH SHADOW EFFECT */
+        .btn-reset {
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+        }
+
+        /* Developer Credit Footprint */
+        .dev-credit-text {
+            text-align: center;
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .dev-credit-text strong {
+            color: #38bdf8;
+        }
+
+        /* --- 20 TEMPLATES GRAPHICAL GRID --- */
+        .category-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin: 15px 0 8px 0;
+            font-weight: 700;
+        }
+
+        .grid-templates {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .tmpl-card {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 10px;
+            padding: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .tmpl-card.active {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        .thumb {
+            width: 100%;
+            height: 90px;
+            background: #f8fafc;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .thumb-avatar {
+            width: 16px;
+            height: 16px;
+            background: #cbd5e1;
+            border-radius: 50%;
+            margin-bottom: 4px;
+        }
+
+        .thumb::before,
+        .thumb::after {
+            content: '';
+            display: block;
+            background: #cbd5e1;
+            height: 4px;
+            width: 50%;
+            border-radius: 2px;
+        }
+
+        .thumb::after {
+            width: 80%;
+        }
+
+        .tmpl-card span {
+            font-size: 11px;
+            font-weight: 600;
+            color: #cbd5e1;
+            display: block;
+        }
+
+        .tmpl-card.active span {
+            color: #38bdf8;
+        }
+
+        /* --- PREVIEW ZONE (FIT-TO-SCREEN) --- */
+        .preview-fixed-wrapper {
+            width: 100%;
+            background: #1e293b;
+            padding: 10px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow: hidden;
+        }
+
+        /* Base A4 Blueprint */
+        .a4-paper {
+            background: white;
+            color: #1e293b;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 55px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transform-origin: top center;
+            flex-shrink: 0;
+        }
+
+        /* --- APP FIXED BOTTOM ACTION BAR --- */
+        .bottom-nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1e293b;
+            padding: 12px 15px;
+            border-top: 1px solid #334155;
+            z-index: 999;
+        }
+
+        .btn-action-trigger {
+            background: linear-gradient(135deg, #38bdf8 0%, #1d4ed8 100%);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        /* --- TEMPLATE ENGINE CLASSES --- */
+        .resume-header-block {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .resume-photo-container {
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #e2e8f0;
+            border: 2px solid var(--primary-color, #333);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .resume-photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .resume-photo-container svg {
+            width: 50px;
+            height: 50px;
+            fill: #94a3b8;
+        }
+
+        .hdr-center {
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .hdr-left {
+            flex-direction: row;
+            text-align: left;
+        }
+
+        .hdr-split {
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary-color, #333);
+            padding-bottom: 15px;
+        }
+
+        .hdr-colored {
+            background: var(--primary-color, #1e293b);
+            color: white !important;
+            margin: -55px -55px 25px -55px;
+            padding: 35px;
+        }
+
+        .hdr-colored * {
+            color: white !important;
+        }
+
+        .hdr-colored .resume-photo-container {
+            border-color: white;
+        }
+
+        .st-line {
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--primary-color, #333);
+            padding-bottom: 4px;
+            margin: 26px 0 12px 0;
+            color: var(--primary-color, #333);
+        }
+
+        .st-side-bar {
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--primary-color, #333);
+            border-left: 4px solid var(--primary-color, #333);
+            padding-left: 8px;
+            margin: 26px 0 12px 0;
+        }
+
+        .st-shaded {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: white;
+            background: var(--primary-color, #333);
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin: 26px 0 12px 0;
+        }
+
+        .st-minimal {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            margin: 26px 0 14px 0;
+            color: #1e293b;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .font-sans {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .user-name {
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .contact-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 12px;
+            color: #475569;
+            margin-top: 8px;
+            justify-content: inherit;
+            line-height: 1.5;
+        }
+
+        .block-desc {
+            font-size: 13px;
+            color: #475569;
+            margin-top: 6px;
+            line-height: 1.6;
+        }
+
+        .resume-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .resume-table th,
+        .resume-table td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 10px;
+            text-align: left;
+        }
+
+        .resume-table th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 130px 10px 1fr;
+            gap: 6px;
+            font-size: 13px;
+            color: #334155;
+            line-height: 1.8;
+        }
+
+        .profile-label {
+            font-weight: 600;
+        }
+
+        .dec-box {
+            font-size: 13px;
+            color: #475569;
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+
+        .sign-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .skills-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .tag {
+            padding: 4px 10px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #334155;
+        }
+
+        .tag-pill {
+            padding: 4px 12px;
+            background: var(--primary-color, #333);
+            color: white;
+            border-radius: 20px;
+            font-size: 11px;
+        }
+
+        .resume-sub-block {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .resume-sub-block h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .resume-sub-block p {
+            font-size: 13px;
+            color: #475569;
+            margin-top: 4px;
+        }
+
+        /* --- FIXED PRINT CONFIGURATION --- */
+        @media print {
+
+            header,
+            .app-tabs,
+            .bottom-nav-bar,
+            .category-title,
+            .grid-templates,
+            h2,
+            .promo-banner,
+            .dev-credit-text,
+            .preview-fixed-wrapper>h2 {
+                display: none !important;
+            }
+
+            body,
+            .app-main-content,
+            .preview-fixed-wrapper {
+                background: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                overflow: visible !important;
+                height: auto !important;
+                width: auto !important;
+            }
+
+            .a4-paper {
+                box-shadow: none !important;
+                margin: 0 !important;
+                width: 100% !important;
+                transform: scale(1) !important;
+                height: auto !important;
+                padding: 40px !important;
+                display: flex !important;
+            }
+        }
+    </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <h1>Resume Builder Pro</h1>
+        <!-- <p>By Safe Rights R15v4</p> -->
+    </header>
+
+    <div class="app-tabs">
+        <button id="tabForm" class="tab-btn active" onclick="navigate('form')">1. Details</button>
+        <button id="tabTemplate" class="tab-btn" onclick="navigate('template')">2. Templates</button>
+        <button id="tabPreview" class="tab-btn" onclick="navigate('preview')">3. Preview</button>
+    </div>
+
+    <div class="app-main-content" id="mainContentScroll">
+
+        <div id="screenForm" class="app-screen active">
+            <div class="promo-banner">
+                <h3>Want Free Tech & Motorcycle Tips?</h3>
+                <p>Subscribe to our YouTube Channel for premium content!</p>
+                <button class="btn-youtube"
+                    onclick="window.open('https://www.youtube.com/channel/UCvHqP4hG5HyyxwHPz4pOZkA', '_blank')">▶ Visit
+                    Safe Rides R15v4</button>
+            </div>
+
+            <h2>Contact Information</h2>
+            <div class="form-group"><label>Full Name</label><input type="text" id="inName"
+                    placeholder="e.g. Rahul Kumar" oninput="syncData()"></div>
+            <div class="form-group"><label>Upload Profile Photo</label><input type="file" id="inPhoto" accept="image/*"
+                    onchange="loadPhoto(event)"></div>
+            <div class="form-group"><label>Email Address</label><input type="email" id="inEmail"
+                    placeholder="e.g. rahulkumar@gmail.com" oninput="syncData()"></div>
+            <div class="form-group"><label>Phone Number</label><input type="text" id="inPhone"
+                    placeholder="e.g. 9876543210" oninput="syncData()"></div>
+            <div class="form-group"><label>Address</label><input type="text" id="inLoc"
+                    placeholder="e.g. Sector 62, Noida, Uttar Pradesh, 201301" oninput="syncData()"></div>
+
+            <h2>Career Objective</h2>
+            <div class="form-group">
+                <label>Objective (Editable for Public)</label>
+                <textarea id="inSummary"
+                    oninput="syncData()">To secure a challenging position in a professional organization where I can utilize my core skills, knowledge, and technical abilities to contribute effectively to the growth of the company while continuously enhancing my professional career growth.</textarea>
+            </div>
+
+            <h2>Education Qualification</h2>
+            <div class="category-title" style="margin-top:0;">10th Details</div>
+            <div class="edu-row-form">
+                <input type="text" id="inEduQual1" value="10th" readonly>
+                <input type="text" id="inEduInst1" placeholder="Institution Name (e.g. Abc Public School)"
+                    oninput="syncData()">
+                <input type="text" id="inEduBoard1" placeholder="Board (e.g. CBSE)" oninput="syncData()">
+                <input type="text" id="inEduYear1" placeholder="Passing Year (e.g. 2018)" oninput="syncData()">
+                <input type="text" id="inEduMarks1" placeholder="Percentage/Grade (e.g. 82%)" oninput="syncData()">
+            </div>
+            <div class="category-title">12th Details</div>
+            <div class="edu-row-form">
+                <input type="text" id="inEduQual2" value="12th" readonly>
+                <input type="text" id="inEduInst2" placeholder="Institution Name (e.g. Xyz Inter College)"
+                    oninput="syncData()">
+                <input type="text" id="inEduBoard2" placeholder="Board (e.g. CBSE)" oninput="syncData()">
+                <input type="text" id="inEduYear2" placeholder="Passing Year (e.g. 2020)" oninput="syncData()">
+                <input type="text" id="inEduMarks2" placeholder="Percentage/Grade (e.g. 78%)" oninput="syncData()">
+            </div>
+            <div class="category-title">Higher Education/Diploma</div>
+            <div class="edu-row-form">
+                <input type="text" id="inEduQual3" placeholder="Course (e.g. B.Tech in Computer Science)"
+                    oninput="syncData()">
+                <input type="text" id="inEduInst3" placeholder="Institution/College (e.g. XYZ Institute)"
+                    oninput="syncData()">
+                <input type="text" id="inEduBoard3" placeholder="University (e.g. AKTU University)"
+                    oninput="syncData()">
+                <input type="text" id="inEduYear3" placeholder="Passing Year (e.g. 2024)" oninput="syncData()">
+                <input type="text" id="inEduMarks3" placeholder="Percentage/Grade (e.g. 7.8 CGPA)" oninput="syncData()">
+            </div>
+
+            <!-- <h2>Work Experience (Optional)</h2>
+            <div class="exp-row-form">
+                <input type="text" id="inExpCompany" placeholder="Company Name & Location" oninput="syncData()">
+                <input type="text" id="inExpRole" placeholder="Designation / Role" oninput="syncData()">
+                <input type="text" id="inExpDuration" placeholder="Duration (e.g. Jan 2024 - Present)"
+                    oninput="syncData()">
+                <input type="text" id="inExpDetails" placeholder="Key responsibilities or achievements"
+                    oninput="syncData()">
+            </div> -->
+
+            <!-- <h2>Key Projects (Optional)</h2>
+            <div class="proj-row-form">
+                <input type="text" id="inProjTitle" placeholder="Project Title" oninput="syncData()">
+                <input type="text" id="inProjTech" placeholder="Technologies Used" oninput="syncData()">
+                <input type="text" id="inProjDesc" placeholder="Brief project description" oninput="syncData()">
+            </div> -->
+
+            <h2>Technical Skills</h2>
+            <div class="form-group"><label>Skills (Comma Separated)</label><input type="text" id="inSkills"
+                    placeholder="e.g. Microsoft Office, HTML, CSS, JavaScript" oninput="syncData()"></div>
+
+            <h2>Personal Profile</h2>
+            <div class="form-group"><label>Father's Name</label><input type="text" id="inFather"
+                    placeholder="e.g. Satish Kumar" oninput="syncData()"></div>
+            <div class="form-group"><label>Date of Birth</label><input type="text" id="inDOB"
+                    placeholder="e.g. 15/08/2001" oninput="syncData()"></div>
+            <div class="form-group"><label>Marital Status</label>
+                <select id="inMarital" onchange="syncData()">
+                    <option value="" disabled selected>Select Marital Status</option>
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Gender</label><input type="text" id="inGender"
+                    placeholder="e.g. Male / Female" oninput="syncData()"></div>
+            <div class="form-group"><label>Religion</label><input type="text" id="inReligion" placeholder="e.g. Hindu"
+                    oninput="syncData()"></div>
+            <div class="form-group"><label>Nationality</label><input type="text" id="inNational"
+                    placeholder="e.g. Indian" oninput="syncData()"></div>
+            <div class="form-group"><label>Languages Known</label><input type="text" id="inLang"
+                    placeholder="e.g. Hindi, English" oninput="syncData()"></div>
+
+            <h2>Declaration</h2>
+            <div class="form-group">
+                <label>Declaration Text (Editable for Public)</label>
+                <textarea id="inDec"
+                    oninput="syncData()">I hereby declare that all the statements and information furnished above are true, correct, and complete to the best of my knowledge and belief.</textarea>
+            </div>
+            <div class="form-group"><label>Place</label><input type="text" id="inPlace" placeholder="e.g. New Delhi"
+                    oninput="syncData()"></div>
+
+            <button class="btn-reset" onclick="resetForm()">Reset All Details</button>
+            <div class="dev-credit-text">App Developed by <strong>ER THAKUR SONU</strong></div>
+        </div>
+
+        <div id="screenTemplate" class="app-screen">
+            <h2>Tap to Select Layout</h2>
+            <div class="grid-templates" id="grid"></div>
+        </div>
+
+        <div id="screenPreview" class="app-screen">
+            <h2>Full View (Auto-Fit to Screen)</h2>
+            <div class="preview-fixed-wrapper" id="previewWrapper">
+                <div id="pdfCanvas" class="a4-paper">
+
+                    <div id="appHdrLayout" class="resume-header-block hdr-left">
+                        <div class="resume-photo-container" id="photoBox">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z" />
+                            </svg>
+                        </div>
+                        <div style="flex: 1;">
+                            <h1 class="user-name" id="vName">Rahul Kumar</h1>
+                            <div class="contact-row" id="vContact"></div>
+                        </div>
+                    </div>
+
+                    <div id="tSec1" class="st-line">Career Objective</div>
+                    <p id="vSummary" class="block-desc"></p>
+
+                    <div id="tSec2" class="st-line">Education Qualification</div>
+                    <table class="resume-table">
+                        <thead>
+                            <tr>
+                                <th>Qualification</th>
+                                <th>Institution</th>
+                                <th>Board/University</th>
+                                <th>Passing Year</th>
+                                <th>Percentage/Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vEduTableBody"></tbody>
+                    </table>
+
+                    <div id="vExpWrapper" style="display:none;">
+                        <div class="st-line" id="tSecExp">Work Experience</div>
+                        <div class="resume-sub-block">
+                            <h4 id="vExpTitleBlock"></h4>
+                            <p style="font-style: italic; font-size:12px; color:#64748b;" id="vExpTimeBlock"></p>
+                            <p id="vExpDescBlock"></p>
+                        </div>
+                    </div>
+
+                    <div id="vProjWrapper" style="display:none;">
+                        <div class="st-line" id="tSecProj">Key Projects</div>
+                        <div class="resume-sub-block">
+                            <h4 id="vProjTitleBlock"></h4>
+                            <p style="font-style: italic; font-size:12px; color:#64748b;" id="vProjTechBlock"></p>
+                            <p id="vProjDescBlock"></p>
+                        </div>
+                    </div>
+
+                    <div id="tSec3" class="st-line">Technical Skills</div>
+                    <div class="skills-box" id="vSkills"></div>
+
+                    <div id="tSec4" class="st-line">Personal Profile</div>
+                    <div class="profile-grid" id="vProfile"></div>
+
+                    <div class="st-line" id="tSec5" style="border-bottom:none; margin-top:20px;">Declaration</div>
+                    <p class="dec-box" id="vDec"></p>
+
+                    <div class="sign-row">
+                        <div>
+                            Date: <span id="vDate">-</span><br>
+                            Place: <span id="vPlace">-</span>
+                        </div>
+                        <div style="text-align: right; margin-top: 15px;">
+                            Signature_________________
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-nav-bar"><button id="btnFooterAction" class="btn-action-trigger"
+            onclick="handleFooterNavigation()">Next: Choose Template</button></div>
+
+    <script>
+        let uploadedImageBase64 = "";
+
+        // Prevent mobile WebView pull-to-refresh while allowing app scrolling
+        let startY = 0;
+        document.addEventListener('touchstart', function(e) {
+            startY = e.touches[0].clientY;
+        }, {passive:true});
+
+        document.addEventListener('touchmove', function(e) {
+            const scrollBox = document.getElementById('mainContentScroll');
+            if (!scrollBox) return;
+
+            const currentY = e.touches[0].clientY;
+            const atTop = scrollBox.scrollTop <= 0;
+            const pullingDown = currentY > startY;
+
+            if (atTop && pullingDown) {
+                e.preventDefault();
+            }
+        }, {passive:false});
+
+        // Generate 20 Cards dynamically
+        const grid = document.getElementById('grid');
+        for (let i = 1; i <= 20; i++) {
+            grid.innerHTML += `<div class="tmpl-card" id="cardTmpl${i}" onclick="applyTemplate(${i}, this)"><div class="thumb" id="thumbStyle${i}"><div class="thumb-avatar"></div></div><span>Layout ${i}</span></div>`;
+        }
+
+        for (let i = 1; i <= 20; i++) {
+            let t = document.getElementById('thumbStyle' + i);
+            if (i === 1) t.style.borderTop = "8px solid #1e293b";
+            else if (i === 2) t.style.borderLeft = "14px solid #1e3a8a";
+            else if (i === 3) { t.style.borderTop = "8px solid #854d0e"; t.style.alignItems = "center"; }
+            else if (i === 4) { t.style.background = "#064e3b"; t.querySelector('.thumb-avatar').style.background = "#fff"; }
+            else if (i === 5) t.style.borderBottom = "8px solid #0f172a";
+            else if (i === 6) t.style.borderLeft = "6px solid #06b6d4";
+            else if (i === 7) { t.style.background = "#dc2626"; t.querySelector('.thumb-avatar').style.background = "#fff"; }
+            else if (i === 8) { t.style.background = "#eef2ff"; t.style.borderTop = "8px solid #4f46e5"; }
+            else if (i === 9) t.style.borderRight = "14px solid #454545";
+            else if (i === 10) t.style.borderBottom = "6px dashed #0d9488";
+            else if (i === 11) t.style.background = "linear-gradient(to bottom, #ea580c, #fff 40%)";
+            else if (i === 12) { t.style.borderLeft = "10px solid #9333ea"; t.style.borderTop = "6px solid #9333ea"; }
+            else if (i === 13) { t.style.background = "#7c3aed"; t.querySelector('.thumb-avatar').style.background = "#fff"; }
+            else if (i === 14) t.style.borderTop = "12px solid #14532d";
+            else if (i === 15) { t.style.background = "#f43f5e"; t.querySelector('.thumb-avatar').style.background = "#000"; }
+            else if (i === 16) t.style.border = "1px solid #000";
+            else if (i === 17) t.style.background = "#fafafa";
+            else if (i === 18) t.style.borderBottom = "2px solid #27272a";
+            else if (i === 19) t.style.background = "#f4f4f5";
+            else if (i === 20) { t.style.borderTop = "6px solid #7c2d12"; t.style.borderBottom = "6px solid #7c2d12"; }
+        }
+        document.getElementById('cardTmpl1').classList.add('active');
+
+        function navigate(targetScreen) {
+            document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            const btn = document.getElementById('btnFooterAction');
+
+            if (targetScreen === 'form') {
+                document.getElementById('screenForm').classList.add('active');
+                document.getElementById('tabForm').classList.add('active');
+                btn.innerText = "Next: Choose Template";
+            } else if (targetScreen === 'template') {
+                document.getElementById('screenTemplate').classList.add('active');
+                document.getElementById('tabTemplate').classList.add('active');
+                btn.innerText = "Next: View Live Preview";
+            } else if (targetScreen === 'preview') {
+                document.getElementById('screenPreview').classList.add('active');
+                document.getElementById('tabPreview').classList.add('active');
+                btn.innerText = "Download PDF";
+                setTimeout(adjustPreviewScale, 50);
+            }
+            document.getElementById('mainContentScroll').scrollTop = 0;
+        }
+
+        // 🛠️ FIX 3: MOBILE STABLE NAVIGATION WITH DELAY PREVENTING REBOOTS
+        function handleFooterNavigation() {
+    const state = document.getElementById('btnFooterAction').innerText;
+
+    if (state === "Next: Choose Template") {
+        navigate('template');
+        return;
+    }
+
+    if (state === "Next: View Live Preview") {
+        navigate('preview');
+        return;
+    }
+
+    html2canvas(target,{scale:2,backgroundColor:"#ffffff",useCORS:true}).then(c=>{const a=document.createElement("a");a.download="resume.png";a.href=c.toDataURL("image/png");a.click();}).catch(e=>alert("Download failed")); return;
+    const target = document.getElementById('pdfCanvas');
+
+    html2canvas(target, {
+        scale: 4,
+        backgroundColor: "#ffffff",
+        useCORS: true
+    }).then(canvas => {
+
+        const img = canvas.toDataURL("image/png");
+
+        const old = document.getElementById("saveImageArea");
+        if(old) old.remove();
+
+        const box = document.createElement("div");
+        box.id = "saveImageArea";
+        box.style.textAlign = "center";
+        box.style.padding = "15px";
+
+        box.innerHTML = `
+        <h3 style="color:white;">Long press image to save</h3>
+        <img src="${img}" style="width:100%;border-radius:10px;">
+        `;
+
+        document.getElementById("screenPreview").appendChild(box);
+
+        alert("Image ready hai. Image par long press karke Save Image kare.");
+
+    }).catch(e=>{
+        alert("Image nahi ban rahi");
+        console.log(e);
+    });
+}
+
+function loadPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) { uploadedImageBase64 = e.target.result; syncData(); }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function adjustPreviewScale() {
+            const wrapper = document.getElementById('previewWrapper');
+            const canvas = document.getElementById('pdfCanvas');
+            if (!wrapper || !canvas) return;
+            const scaleRatio = (wrapper.clientWidth-20) / canvas.offsetWidth;
+            canvas.style.transform = `scale(${scaleRatio})`;
+            wrapper.style.height = (canvas.offsetHeight * scaleRatio) + "px";
+        }
+
+        function resetForm() {
+            if (confirm("Are you sure you want to clear all fields?")) {
+                uploadedImageBase64 = "";
+
+                const clearIds = [
+                    'inName','inPhoto','inEmail','inPhone','inLoc',
+                    'inEduInst1','inEduBoard1','inEduYear1','inEduMarks1',
+                    'inEduInst2','inEduBoard2','inEduYear2','inEduMarks2',
+                    'inEduQual3','inEduInst3','inEduBoard3','inEduYear3','inEduMarks3',
+                    'inSkills','inFather','inDOB','inMarital','inGender',
+                    'inReligion','inNational','inLang','inPlace',
+                    'inExpCompany','inExpRole','inExpDuration','inExpDetails',
+                    'inProjTitle','inProjTech','inProjDesc'
+                ];
+
+                clearIds.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        if (el.type === 'file') {
+                            el.value = "";
+                        } else {
+                            el.value = "";
+                        }
+                    }
+                });
+
+                // Keep Career Objective and Declaration unchanged
+                syncData();
+            }
+        }
+
+        const themeMatrix = {
+            1: { color: '#1e293b', font: 'font-sans', hdr: 'resume-header-block hdr-left', title: 'st-line', tag: 'tag' },
+            2: { color: '#1e3a8a', font: 'font-sans', hdr: 'resume-header-block hdr-split', title: 'st-side-bar', tag: 'tag-pill' },
+            3: { color: '#854d0e', font: 'font-serif', hdr: 'resume-header-block hdr-center', title: 'st-minimal', tag: 'tag' },
+            4: { color: '#064e3b', font: 'font-sans', hdr: 'resume-header-block hdr-colored', title: 'st-shaded', tag: 'tag-pill' },
+            5: { color: '#0f172a', font: 'font-sans', hdr: 'resume-header-block hdr-split', title: 'st-line', tag: 'tag' },
+            6: { color: '#06b6d4', font: 'font-mono', hdr: 'resume-header-block hdr-left', title: 'st-side-bar', tag: 'tag' },
+            7: { color: '#dc2626', font: 'font-sans', hdr: 'resume-header-block hdr-colored', title: 'st-line', tag: 'tag-pill' },
+            8: { color: '#4f46e5', font: 'font-sans', hdr: 'resume-header-block hdr-left', title: 'st-shaded', tag: 'tag-pill' },
+            9: { color: '#454545', font: 'font-mono', hdr: 'resume-header-block hdr-split', title: 'st-side-bar', tag: 'tag' },
+            10: { color: '#0d9488', font: 'font-sans', hdr: 'resume-header-block hdr-center', title: 'st-line', tag: 'tag' },
+            11: { color: '#ea580c', font: 'font-serif', hdr: 'resume-header-block hdr-colored', title: 'st-minimal', tag: 'tag-pill' },
+            12: { color: '#9333ea', font: 'font-sans', hdr: 'resume-header-block hdr-split', title: 'st-side-bar', tag: 'tag' },
+            13: { color: '#7c3aed', font: 'font-mono', hdr: 'resume-header-block hdr-center', title: 'st-shaded', tag: 'tag-pill' },
+            14: { color: '#14532d', font: 'font-serif', hdr: 'resume-header-block hdr-left', title: 'st-line', tag: 'tag' },
+            15: { color: '#f43f5e', font: 'font-sans', hdr: 'resume-header-block hdr-colored', title: 'st-side-bar', tag: 'tag-pill' },
+            16: { color: '#000000', font: 'font-sans', hdr: 'resume-header-block hdr-left', title: 'st-minimal', tag: 'tag' },
+            17: { color: '#111111', font: 'font-mono', hdr: 'resume-header-block hdr-center', title: 'st-line', tag: 'tag' },
+            18: { color: '#27272a', font: 'font-serif', hdr: 'resume-header-block hdr-left', title: 'st-line', tag: 'tag' },
+            19: { color: '#52525b', font: 'font-sans', hdr: 'resume-header-block hdr-split', title: 'st-minimal', tag: 'tag' },
+            20: { color: '#7c2d12', font: 'font-serif', hdr: 'resume-header-block hdr-center', title: 'st-side-bar', tag: 'tag-pill' }
+        };
+
+        let activeThemeId = 1;
+
+        function syncData() {
+            document.getElementById('vName').innerText = document.getElementById('inName').value || "Rahul Kumar";
+            const addr = document.getElementById('inLoc').value || "Sector 62, Noida, Uttar Pradesh, 201301";
+            const email = document.getElementById('inEmail').value || "rahulkumar@gmail.com";
+            const phone = document.getElementById('inPhone').value || "9876543210";
+            document.getElementById('vContact').innerHTML = `<span>Address: ${addr}</span><br><span>E-mail: ${email}</span> | <span>Mob: ${phone}</span>`;
+
+            document.getElementById('vSummary').innerText = document.getElementById('inSummary').value;
+
+            let tableHtml = "";
+            const dInst = ["Abc Public School", "Xyz Inter College"];
+            const dBoard = ["CBSE", "CBSE"];
+            const dYear = ["2018", "2020"];
+            const dMarks = ["82%", "78%"];
+            for (let i = 1; i <= 2; i++) {
+                let q=document.getElementById('inEduQual'+i).value|| (i==1?"10th":"12th");
+                let inst=document.getElementById('inEduInst'+i).value||dInst[i-1];
+                let b=document.getElementById('inEduBoard'+i).value||dBoard[i-1];
+                let y=document.getElementById('inEduYear'+i).value||dYear[i-1];
+                let m=document.getElementById('inEduMarks'+i).value||dMarks[i-1];
+                tableHtml += `<tr><td>${q}</td><td>${inst}</td><td>${b}</td><td>${y}</td><td>${m}</td></tr>`;
+            }
+            let q3=document.getElementById('inEduQual3').value.trim(),i3=document.getElementById('inEduInst3').value.trim(),b3=document.getElementById('inEduBoard3').value.trim(),y3=document.getElementById('inEduYear3').value.trim(),m3=document.getElementById('inEduMarks3').value.trim();
+            if(q3||i3||b3||y3||m3){tableHtml+=`<tr><td>${q3}</td><td>${i3}</td><td>${b3}</td><td>${y3}</td><td>${m3}</td></tr>`;}
+            document.getElementById('vEduTableBody').innerHTML = tableHtml;
+
+            const expCompanyEl=document.getElementById('inExpCompany');
+            const company = expCompanyEl?expCompanyEl.value:'';
+            const role = document.getElementById('inExpRole')?document.getElementById('inExpRole').value:'';
+            if (company || role) {
+                document.getElementById('vExpWrapper').style.display = "block";
+                document.getElementById('vExpTitleBlock').innerText = `${role || 'Employee'} - ${company || 'Company Name'}`;
+                document.getElementById('vExpTimeBlock').innerText = document.getElementById('inExpDuration').value || 'Duration';
+                document.getElementById('vExpDescBlock').innerText = document.getElementById('inExpDetails').value || 'Responsibilities...';
+            } else { document.getElementById('vExpWrapper').style.display = "none"; }
+
+            const projTitle = document.getElementById('inProjTitle')?document.getElementById('inProjTitle').value:'';
+            if (projTitle) {
+                document.getElementById('vProjWrapper').style.display = "block";
+                document.getElementById('vProjTitleBlock').innerText = projTitle;
+                document.getElementById('vProjTechBlock').innerText = `Technologies: ${document.getElementById('inProjTech').value || 'None'}`;
+                document.getElementById('vProjDescBlock').innerText = document.getElementById('inProjDesc').value || 'Project description...';
+            } else { document.getElementById('vProjWrapper').style.display = "none"; }
+
+            let father = document.getElementById('inFather').value || "Satish Kumar";
+            let dob = document.getElementById('inDOB').value || "15/08/2001";
+            let marital = document.getElementById('inMarital').value || "Single";
+            let gender = document.getElementById('inGender').value || "Male";
+            let religion = document.getElementById('inReligion').value || "Hindu";
+            let national = document.getElementById('inNational').value || "Indian";
+            let lang = document.getElementById('inLang').value || "Hindi, English";
+
+            document.getElementById('vProfile').innerHTML = `
+                <div class="profile-label">Father's Name</div><div>:</div><div>${father}</div>
+                <div class="profile-label">Date of Birth</div><div>:</div><div>${dob}</div>
+                <div class="profile-label">Marital Status</div><div>:</div><div>${marital}</div>
+                <div class="profile-label">Gender</div><div>:</div><div>${gender}</div>
+                <div class="profile-label">Religion</div><div>:</div><div>${religion}</div>
+                <div class="profile-label">Nationality</div><div>:</div><div>${national}</div>
+                <div class="profile-label">Language Known</div><div>:</div><div>${lang}</div>
+            `;
+
+            document.getElementById('vDec').innerText = document.getElementById('inDec').value;
+            document.getElementById('vPlace').innerText = document.getElementById('inPlace').value || "New Delhi";
+
+            let today = new Date();
+            document.getElementById('vDate').innerText = today.toLocaleDateString('en-GB');
+
+            if (uploadedImageBase64 !== "") {
+                document.getElementById('photoBox').innerHTML = `<img src="${uploadedImageBase64}" alt="Profile">`;
+            } else {
+                document.getElementById('photoBox').innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>`;
+            }
+
+            const rawSkills = document.getElementById('inSkills').value;
+            const container = document.getElementById('vSkills');
+            container.innerHTML = "";
+            const activeConfig = themeMatrix[activeThemeId];
+
+            const skillTitle=document.getElementById("tSec3");
+            if(rawSkills.trim()===""){skillTitle.style.display="none";container.style.display="none";}else{skillTitle.style.display="";container.style.display="flex";
+                rawSkills.split(',').forEach(token => {
+                    if (token.trim() !== "") {
+                        const el = document.createElement('span'); el.className = activeConfig.tag; el.innerText = token.trim(); container.appendChild(el);
+                    }
+                });
+            }
+        }
+
+        function applyTemplate(id, element) {
+            activeThemeId = id;
+            document.querySelectorAll('.tmpl-card').forEach(b => b.classList.remove('active'));
+            element.classList.add('active');
+
+            const canvas = document.getElementById('pdfCanvas');
+            const hdr = document.getElementById('appHdrLayout');
+            const targetConfig = themeMatrix[id];
+
+            canvas.style.setProperty('--primary-color', targetConfig.color);
+            canvas.className = `a4-paper ${targetConfig.font}`;
+            hdr.className = targetConfig.hdr;
+
+            document.querySelectorAll('#tSec1, #tSec2, #tSec3, #tSec4, #tSec5, #tSecExp, #tSecProj').forEach(titleElement => {
+                if (titleElement.id !== "tSec5") titleElement.className = targetConfig.title;
+            });
+            syncData();
+        }
+
+        window.addEventListener('resize', () => {
+            if (document.getElementById('screenPreview').classList.contains('active')) { adjustPreviewScale(); }
+        });
+
+        window.onload = function () {
+            syncData();
+        };
+    </script>
+</body>
+
+</html>
