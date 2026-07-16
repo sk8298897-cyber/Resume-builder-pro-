@@ -934,7 +934,7 @@
         return;
     }
 
-    html2canvas(target,{scale:2,backgroundColor:"#ffffff",useCORS:true}).then(c=>{const a=document.createElement("a");a.download="resume.png";a.href=c.toDataURL("image/png");a.click();}).catch(e=>alert("Download failed")); return;
+    window.print(); return;
     const target = document.getElementById('pdfCanvas');
 
     html2canvas(target, {
